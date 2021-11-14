@@ -6,7 +6,7 @@ const db = mysql.createConnection(
     {
       host: 'localhost',
       user: 'root',
-      PORT: '3306',
+      port: '3306',
       password: '',
       database: 'employee_trackerDB'
     },
@@ -38,11 +38,11 @@ function startPrompt(){
         }
     ]).then(function(val){
         switch(val.choice){
-            case "View All Employees?":
+            case "View All Employee":
               viewAllEmployees();
             break;
     
-          case "View All Employee's  Roles?":
+          case "View All Employee's Roles":
               viewAllRoles();
             break;
           case "View All Employee's Departments":
@@ -74,6 +74,31 @@ function startPrompt(){
 
     )
 }
+//view all employee function
+function viewAllEmployees(){
+    db.query("SELECT * FROM employee;",
+    function(err, res){
+   if (err) throw err
+  
+   console.log(cTable.getTable(res));
+   startPrompt()
+    })
+
+}
+//view all employee roles function
+function viewAllRoles(){
+    db.query("SELECT * FROM role;",
+    function(err, res){
+   if (err) throw err
+  
+   console.log(cTable.getTable(res));
+   startPrompt()
+    })
+
+}
+
+
+// view all depatment function
 function viewAllDepartments(){
     db.query("SELECT * FROM department;",
     function(err, res){
