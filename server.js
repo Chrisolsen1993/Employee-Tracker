@@ -1,11 +1,12 @@
 const inquirer = require("inquirer")
-const cTable = require(console.table)
+const cTable = require("console.table")
 const mysql = require("mysql2")
+
 const db = mysql.createConnection(
     {
       host: 'localhost',
       user: 'root',
-      Port: '3001',
+      PORT: '3306',
       password: '',
       database: 'employee_trackerDB'
     },
@@ -44,7 +45,7 @@ function startPrompt(){
           case "View All Employee's  Roles?":
               viewAllRoles();
             break;
-          case "View all Emplyee's Deparments":
+          case "View All Employee's Departments":
               viewAllDepartments();
             break;
           
@@ -74,12 +75,13 @@ function startPrompt(){
     )
 }
 function viewAllDepartments(){
-    db.query("SELECT * FROM department;"),
+    db.query("SELECT * FROM department;",
     function(err, res){
    if (err) throw err
-   cTable(res)
+  
+   console.log(cTable.getTable(res));
    startPrompt()
-    }
+    })
 
 }
 
