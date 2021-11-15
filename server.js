@@ -118,7 +118,7 @@ function addDepartment(){
       message:"Enter the name of the department"
     }
   ]).then(function(answer){
-    const newName="answer.name"
+    const newName= answer.name
     const sql = `INSERT INTO department (name) VALUES(?);`
     db.query(sql,newName,
     function(err,res){
@@ -132,6 +132,16 @@ function addDepartment(){
 
 }
 function addRole(){
+  // query the department table to get all the info
+  const sqlDept=`SELECT * FROM department;`
+  db.query(sqlDept, 
+    function(err,data){
+      if (err) throw err;
+      console.log(data)
+      var myData = data.map(({name, id})=>({name: name, value: id})) 
+console.log(myData)
+    })
+   
 inquirer.prompt([
   {
     name: "Title",
@@ -143,7 +153,14 @@ inquirer.prompt([
     type: "input",
     message: "What is the Salary?"
 
-  } 
+  } ,
+  {
+    type: 'list', 
+    name: 'someName',
+    message: "Select department?",
+    choices: myData
+
+  }
 
 ])
 
