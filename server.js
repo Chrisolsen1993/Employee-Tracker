@@ -29,9 +29,9 @@ function startPrompt(){
                 "View All Employee",
                 "View All Employee's Roles",
                 "View All Employee's Departments",
-                "Add Employee",
-                "Add Role",
                 "Add Department",
+                "Add Role",
+                "Add Employee",
                 "Update Employee",
                 "Quit"
             ]
@@ -49,16 +49,16 @@ function startPrompt(){
               viewAllDepartments();
             break;
           
-          case "Add Employee?":
-                addEmployee();
+          case "Add Department":
+                addDepartment();
               break;
 
            case "Add Role":
                 addRole();
               break;
       
-            case "Add Department?":
-                addDepartment();
+            case "Add Employee":
+                addEmployee();
               break;
 
             case "Update Employee":
@@ -87,7 +87,7 @@ function viewAllEmployees(){
 }
 //view all employee roles function
 function viewAllRoles(){
-    db.query("SELECT * FROM role;",
+    db.query("SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id;",
     function(err, res){
    if (err) throw err
   
@@ -107,6 +107,45 @@ function viewAllDepartments(){
    console.log(cTable.getTable(res));
    startPrompt()
     })
+
+}
+
+function addDepartment(){
+  inquirer.prompt([
+    {
+      name:"name",
+      type:"input",
+      message:"Enter the name of the department"
+    }
+  ]).then(function(answer){
+    const newName="answer.name"
+    const sql = `INSERT INTO department (name) VALUES(?);`
+    db.query(sql,newName,
+    function(err,res){
+      if (err) throw err
+   console.log(cTable.getTable(res));
+   viewAllDepartments()
+   startPrompt()
+    }
+    )
+  })
+
+}
+function addRole(){
+inquirer.prompt([
+  {
+    name: "Title",
+    type: "input",
+    message: "What is the roles Title name?"
+  },
+  {
+    name: "Salary",
+    type: "input",
+    message: "What is the Salary?"
+
+  } 
+
+])
 
 }
 
