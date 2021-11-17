@@ -79,7 +79,8 @@ function viewAllEmployees(){
     db.query(`SELECT employee.id,
                      employee.first_name,
                      employee.last_name,
-                     employee.role_id FROM employee JOIN role ON role.title = employee.role_id`,
+                     role.title FROM employee JOIN role ON employee.role_id = role.id
+                     LEFT JOIN department ON role.department_id = department.id;`,
     function(err, res){
    if (err) throw err
   
