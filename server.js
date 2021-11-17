@@ -7,7 +7,7 @@ const db = mysql.createConnection(
       host: 'localhost',
       user: 'root',
       port: '3306',
-      password: '',
+      password: 'poloboy1993',
       database: 'employee_trackerDB'
     },
     console.log(`Connected to the employee_trackerDB database.`)
@@ -76,7 +76,10 @@ function startPrompt(){
 }
 //view all employee function
 function viewAllEmployees(){
-    db.query("SELECT * FROM employee;",
+    db.query(`SELECT employee.id,
+                     employee.first_name,
+                     employee.last_name,
+                     employee.role_id FROM employee JOIN role ON role.title = employee.role_id`,
     function(err, res){
    if (err) throw err
   
