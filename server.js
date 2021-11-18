@@ -96,7 +96,7 @@ function viewAllEmployees(){
 }
 //view all employee roles function
 function viewAllRoles(){
-    db.query("SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id;",
+    db.query("SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id ORDER BY role.id;",
     function(err, res){
    if (err) throw err
   
@@ -134,7 +134,7 @@ function addDepartment(){
       if (err) throw err
    console.log(cTable.getTable(res));
    viewAllDepartments()
-   startPrompt()
+ 
     }
     )
   })
@@ -146,9 +146,9 @@ function addRole(){
   db.query(sqlDept, 
     function(err,data){
       if (err) throw err;
-      console.log(data)
+      // console.log(data)
       var myData = data.map(({name, id})=>({name: name, value: id})) 
-console.log(myData)
+// console.log(myData)
 
 inquirer.prompt([
   {
@@ -191,9 +191,9 @@ function addEmployee(){
   const roleSql=`SELECT role.id, role.title FROM role`;
   db.query(roleSql, function(err, data){
     if (err) throw err; 
-    console.log(data)
+    // console.log(data)
     const myRole =  data.map(({id, title})=>({name: title, value: id})) 
-    console.log(myRole)
+    // console.log(myRole)
    //lets grab the manager first and last name from the employee table
   const managerSql= `SELECT * FROM employee`;
   db.query(managerSql, function(err, res){
@@ -239,7 +239,7 @@ function addEmployee(){
    db.query(sql, parameter, function(err, res){
     if (err) throw err;
     console.log("Employee has been added!")
-  console.log(res)
+  // console.log(res)
     viewAllEmployees()
 
    })
